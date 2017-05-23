@@ -14,7 +14,7 @@ using int32 = int;
 
 void PrintIntro();
 void PlayGame();
-FText GetGuess();
+FText GetValidGuess();
 bool AskToPlayAgain();
 
 FBullCowGame BCGame; // instantiate a new game
@@ -38,18 +38,13 @@ void PlayGame()
 
 	// loop for the number of turns asking for guesses
 	for (int32 count = 1; count <= MaxTries; ++count) { // TODO change from FOR to while loop once we are validating tries
-		FText Guess = GetGuess(); 
-
-		EGuessStatus Status = BCGame.CheckGuessValidity(Guess);
+		FText Guess = GetValidGuess(); 
 
 		// submit valid guess to the game, and receive counts
 		FBullCowCount bull_cow_count = BCGame.SubmitGuess(Guess);
-		// print number of bulls and cows
-		std::cout << "Bulls = " << bull_cow_count.Bulls;
-		std::cout << " Cows = " << bull_cow_count.Cows << '\n';
 
-		std::cout << "Your guess was: " << Guess << '\n';
-		std::cout << '\n';
+		std::cout << "Bulls = " << bull_cow_count.Bulls;
+		std::cout << " Cows = " << bull_cow_count.Cows << "\n\n";
 	}
 
 	// TODO summarise game
@@ -66,19 +61,34 @@ void PrintIntro()
 	return;
 }
 
-// TODO change to GetValidGuess
-FText GetGuess() 
+// loop continually until the user gives a valid guess
+FText GetValidGuess() 
 {
-	// print the current try
-	std::cout << "Try " << BCGame.GetCurrentTry() << ". ";
+	EGuessStatus Status = EGuessStatus::Invalid;
+	do {
+		// get the player's guess
+		std::cout << "Try " << BCGame.GetCurrentTry() << ". Type in your guess: ";
+		FText Guess = "";
+		std::getline(std::cin, Guess);
 
-	// get the player's guess
-	std::cout << "Type in your guess: ";
-	FText Guess = "";
-	std::getline(std::cin, Guess);
+		Status = BCGame.CheckGuessValidity(Guess);
 
-
-	return Guess;
+		switch (Status)
+		{
+		case EGuessStatus::Wrong_Length:
+			std::cout << "Please enter a " << BCGame.GetHiddenWordLength() << " letter word.\n";
+			break;
+		case EGuessStatus::Not_Isogram:
+			std::cout << "Please enter a word with no repeating letters.\n";
+			break;
+		case EGuessStatus::Not_Lowercase:
+			std::cout << "Please enter all lowercase letters.\n";
+			break;
+		default:
+			return Guess;
+		}
+		std::cout << std::endl;
+	} while (Status != EGuessStatus::OK);
 }
 
 bool AskToPlayAgain()
