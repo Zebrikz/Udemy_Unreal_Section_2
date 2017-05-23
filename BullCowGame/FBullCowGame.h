@@ -8,14 +8,14 @@ using FString = std::string;
 using int32 = int;
 
 // all values initialized to zero
-struct BullCowCount {
+struct FBullCowCount {
 	int32 Bulls = 0;
 	int32 Cows = 0;
 };
 
-class FCowBullGame {
+class FBullCowGame {
 public:
-	FCowBullGame(); // constructor
+	FBullCowGame(); // constructor
 
 	int32 GetMaxTries() const;
 	int32 GetCurrentTry() const;
@@ -24,7 +24,7 @@ public:
 	void Reset(); // TODO make a more rich return value.
 	bool CheckGuessValidity(FString); // TODO make a more rich return value.
 
-	BullCowCount SubmitGuess(FString);
+	FBullCowCount SubmitGuess(FString Guess);
 
 // ^^ Please try and ignore this and focus on the interface above ^^
 private:

@@ -5,47 +5,59 @@ using FString = std::string;
 // in unreal int32 is used to support cross-compatiability
 using int32 = int;
 
-FCowBullGame::FCowBullGame()
+FBullCowGame::FBullCowGame()
 {
 	Reset();
 }
 
-int32 FCowBullGame::GetMaxTries() const { return MyMaxTries; }
-int32 FCowBullGame::GetCurrentTry() const { return MyCurrentTry; }
+int32 FBullCowGame::GetMaxTries() const { return MyMaxTries; }
+int32 FBullCowGame::GetCurrentTry() const { return MyCurrentTry; }
 
-void FCowBullGame::Reset()
+void FBullCowGame::Reset()
 {
 	constexpr int32 MAX_TRIES = 8;
 	MyMaxTries = MAX_TRIES;
 
-	const FString HIDDEN_WORD = "planet";
+	const FString HIDDEN_WORD = "ant";
 	MyHiddenWord = HIDDEN_WORD;
 
 	MyCurrentTry = 1;
 	return;
 }
 
-bool FCowBullGame::IsGameWon() const
+bool FBullCowGame::IsGameWon() const
 {
 	return false;
 }
 
-bool FCowBullGame::CheckGuessValidity(FString)
+bool FBullCowGame::CheckGuessValidity(FString)
 {
 	return false;
 }
 
 // receives a VALID guess, increments turn, and returns counts
-BullCowCount FCowBullGame::SubmitGuess(FString)
+FBullCowCount FBullCowGame::SubmitGuess(FString Guess)
 {
 	// increment the turn number
 	MyCurrentTry++;
 
 	// setup return variable
-	BullCowCount bull_cow_count;
+	FBullCowCount bull_cow_count;
 
 	// loop through all letters in the guess
+	int32 HiddenWordLength = MyHiddenWord.length();
+	for (int32 i = 0; i < HiddenWordLength; i++) {
 		// compare letters against the hidden word
+		for (int32 j = 0; j < HiddenWordLength; j++) {
+			if (Guess[i] == MyHiddenWord[i]) { // if they match then
+				if (i == j) { // if they're in the same place
+					bull_cow_count.Bulls++;	// increment bulls
+				} else {
+					bull_cow_count.Cows++; // increment cows
+				}
+			}
+		}
+	}
 
 	return bull_cow_count;
 }
