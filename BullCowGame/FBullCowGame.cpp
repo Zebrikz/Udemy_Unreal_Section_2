@@ -46,11 +46,11 @@ FBullCowCount FBullCowGame::SubmitGuess(FString Guess)
 
 	// loop through all letters in the guess
 	int32 HiddenWordLength = MyHiddenWord.length();
-	for (int32 i = 0; i < HiddenWordLength; i++) {
+	for (int32 MHWChar = 0; MHWChar < HiddenWordLength; MHWChar++) {
 		// compare letters against the hidden word
-		for (int32 j = 0; j < HiddenWordLength; j++) {
-			if (Guess[i] == MyHiddenWord[i]) { // if they match then
-				if (i == j) { // if they're in the same place
+		for (int32 GChar = 0; GChar < HiddenWordLength; GChar++) {
+			if (Guess[GChar] == MyHiddenWord[MHWChar]) { // if they match then
+				if (MHWChar == GChar) { // if they're in the same place
 					bull_cow_count.Bulls++;	// increment bulls
 				} else {
 					bull_cow_count.Cows++; // increment cows
