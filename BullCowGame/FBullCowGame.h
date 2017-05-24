@@ -34,7 +34,7 @@ public:
 
 	void Reset(); // TODO make a more rich return value.
 
-	FBullCowCount SubmitGuess(FString Guess);
+	FBullCowCount SubmitValidGuess(FString Guess);
 
 // ^^ Please try and ignore this and focus on the interface above ^^
 private:
