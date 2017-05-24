@@ -1,4 +1,6 @@
 #include "FBullCowGame.h"
+#include <map>
+#define TMap std::map
 
 // in unreal FString is used for game logic string manipulation
 using FString = std::string;
@@ -32,9 +34,9 @@ void FBullCowGame::Reset()
 
 EGuessStatus FBullCowGame::CheckGuessValidity(FString Guess) const
 {
-	if (false) // if the guess isn't an iosgram 
+	if (!IsIsogram(Guess)) // if the guess isn't an iosgram 
 	{
-		return EGuessStatus::Not_Isogram; // TODO write function
+		return EGuessStatus::Not_Isogram;
 	}
 	else if (false) { // if the guess isn't all lowercase 
 		return EGuessStatus::Not_Lowercase; // TODO write function
@@ -75,4 +77,17 @@ FBullCowCount FBullCowGame::SubmitValidGuess(FString Guess)
 		GameIsWon = true;
 
 	return bull_cow_count;
+}
+
+bool FBullCowGame::IsIsogram(FString) const
+{
+	// treat 0 and 1 letter words as isograms
+
+	// loop through all the letters of the word
+		// if the letter is in the map
+			// we do not have an isogram
+		// otherwise 
+			// add the letter to the map
+			
+	return true; // for example in cases where /0 is entered
 }
